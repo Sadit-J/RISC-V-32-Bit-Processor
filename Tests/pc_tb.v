@@ -1,27 +1,7 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 09/07/2025 04:41:39 PM
-// Design Name: 
-// Module Name: pc_tb
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module pc_tb;
-    // Testbench signals
+
     reg clk;
     reg reset;
     reg [31:0] PC_in;
@@ -43,7 +23,7 @@ module pc_tb;
         PC_in = 0;
 
         reset = 1;
-        #10;   // wait 10 ns
+        #10;  
         reset = 0;
         $display("Reset deasserted, PC_out = %h", PC_out);
 
