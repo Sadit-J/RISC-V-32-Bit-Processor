@@ -59,7 +59,7 @@ module RISCV(
     ProgramCounter pc(
         .clk(clk),
         .reset(reset),
-        .PC_in(pc_in), //EDIT PC IN
+        .PC_in(pc_in),
         .PC_out(pc_out)    
     );
     
@@ -135,3 +135,4 @@ module RISCV(
     );
         
 endmodule
+
