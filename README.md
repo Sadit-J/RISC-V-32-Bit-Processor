@@ -29,4 +29,5 @@ Each module was tested individually with testbenches written in Verilog. Current
 
 # Resources
 D. A. Patterson and J. L. Hennessy, Computer Organization and Design RISC-V Edition: The Hardware Software Interface, 1st ed. San Francisco, CA, USA: Morgan Kaufmann Publishers Inc., 2017
+
 [RISC-V ISA Specification](https://drive.google.com/file/d/1uviu1nH-tScFfgrovvFCrj7Omv8tFtkp/view)
