@@ -15,8 +15,11 @@ Each module was tested individually with testbenches written in Verilog. Current
 
 # Instructions
 `R-type`: ADD, SUB, SLT, XOR, OR, AND, SLL, SRL, SRA, SLT, SLTU
+
 `I-type`: ADDI, XORI, ORI, ANDI, SLLI, SRLI, SRAI, SLTI, SLTIU, LB, LH, LW, LBU, LHU
+
 `S-type`: SB, SH, SW
+
 `B-type`: BEQ, BNE, BLT, BGE, BLTU, BGEU
 
 # Future Work
