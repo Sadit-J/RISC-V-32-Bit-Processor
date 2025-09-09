@@ -19,7 +19,7 @@ I-type: ADDI, XORI, ORI, ANDI, SLLI, SRLI, SRAI, SLTI, SLTIU, LB, LH, LW, LBU, L
 S-type: SB, SH, SW
 B-type: BEQ, BNE, BLT, BGE, BLTU, BGEU
 
-#Future Work
+# Future Work
 - Add J-type and U-type instructions
 - Allow users to add a hex file for instruction memory to read from
 - Research and implement pipelining
