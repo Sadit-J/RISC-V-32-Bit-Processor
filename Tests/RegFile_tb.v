@@ -2,13 +2,11 @@
 
 module RegFile_tb;
 
-    // Testbench signals
     reg  [4:0] rs1, rs2, rd;
     reg  [31:0] write_data;
     reg  reg_write, reset, clk;
     wire [31:0] read_data1, read_data2;
 
-    // Instantiate DUT
     RegFile uut (
         .rs1(rs1),
         .rs2(rs2),
