@@ -1,77 +1,64 @@
 `timescale 1ns / 1ps
 
-module RegFile_tb;
+module RISCV_tb;
 
-    reg  [4:0] rs1, rs2, rd;
-    reg  [31:0] write_data;
-    reg  reg_write, reset, clk;
-    wire [31:0] read_data1, read_data2;
+    // Testbench signals
+    reg clk;
+    reg reset;
 
-    RegFile uut (
-        .rs1(rs1),
-        .rs2(rs2),
-        .rd(rd),
-        .write_data(write_data),
-        .reg_write(reg_write),
-        .reset(reset),
+    // DUT outputs to monitor
+    wire [31:0] pc_in;
+    wire [31:0] pc_out;
+    wire [31:0] instruction;
+    wire [31:0] reg_write_data;
+    wire [31:0] read_data1;
+    wire [31:0] read_data2;
+    wire [31:0] immgen_out;
+    wire [31:0] data_one;
+    wire [31:0] data_two;
+    wire [31:0] alu_result;
+
+
+    // Instantiate Device Under Test (DUT)
+    RISCV uut (
         .clk(clk),
+        .reset(reset),
+        .pc_in(pc_in),
+        .pc_out(pc_out),
+        .instruction(instruction),
+        .reg_write_data(reg_write_data),
         .read_data1(read_data1),
-        .read_data2(read_data2)
+        .read_data2(read_data2),
+        .immgen_out(immgen_out),
+        .data_one(data_one),
+        .data_two(data_two),
+        .alu_result(alu_result)
     );
 
-    
+    // Clock generator: 10ns period = 100 MHz
     always #5 clk = ~clk;
 
-    // Task for a write
-    task write_reg(input [4:0] regnum, input [31:0] value);
-    begin
-        @(posedge clk);
-        rd = regnum;
-        write_data = value;
-        reg_write = 1;
-        @(posedge clk);
-        reg_write = 0;
-    end
-    endtask
-
-    // Task for a read
-    task read_regs(input [4:0] r1, input [4:0] r2);
-    begin
-        rs1 = r1;
-        rs2 = r2;
-        #2; // small delay to let combinational logic settle
-        $display("Read rs1=%0d -> %h | rs2=%0d -> %h",
-                  rs1, read_data1, rs2, read_data2);
-    end
-    endtask
-
     initial begin
-        // Initialize
+        // Initialize signals
         clk = 0;
-        reset = 0;
-        reg_write = 0;
-        rs1 = 0; rs2 = 0; rd = 0; write_data = 0;
-
-        // Apply reset
-        $display("Applying reset...");
         reset = 1;
-        #5 reset = 0;
 
-        // Write to some registers
-        write_reg(5, 32'hAAAA5555);
-        write_reg(10, 32'h12345678);
-        write_reg(15, 32'hDEADBEEF);
+        // Apply reset for a few cycles
+        #20;
+        reset = 0;
 
-        // Read back values
-        read_regs(5, 10);
-        read_regs(15, 0);
+        // Let CPU run for some cycles
+        #200;
 
-        // Overwrite register
-        write_reg(5, 32'h11112222);
-        read_regs(5, 10);
+        // Finish simulation
+        $finish;
+    end
 
-        $display("RegFile tests finished.");
-        #20 $stop;
+    // Monitor outputs
+    initial begin
+        $display("Time | PC_out | Instruction | ALU_Result | RegWriteData");
+        $monitor("%4t | %h | %h | %h | %h", 
+                 $time, pc_out, instruction, alu_result, reg_write_data);
     end
 
 endmodule

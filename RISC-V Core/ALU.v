@@ -31,10 +31,10 @@ module ALU(
        
        
         //Set ALU result to 0, such that zero flag is on
-        4'b1010: alu_result <= !(data_one == data_two);
-        4'b1011: alu_result <= !(data_one != data_two);
-        4'b1100: alu_result <= !($signed(data_one) < $signed(data_two));
-        4'b1101: alu_result <= !($signed(data_one) >= $signed(data_two));
+        4'b1010: alu_result <= (data_one == data_two) ? 32'h0 : 32'hFFFFFFFF;
+        4'b1011: alu_result <= data_one != data_two ? 32'h0 : 32'hFFFFFFFF;
+        4'b1100: alu_result <= ($signed(data_one) < $signed(data_two)) ? 32'h0 : 32'hFFFFFFFF;
+        4'b1101: alu_result <= ($signed(data_one) >= $signed(data_two)) ? 32'h0 : 32'hFFFFFFFF;
       
       endcase
       

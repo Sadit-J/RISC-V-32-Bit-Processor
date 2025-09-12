@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
 module ControlUnit(
+  clk,
   opcode,
   alu_src,
   mem_to_reg,
@@ -11,7 +12,8 @@ module ControlUnit(
   aluop
   );
   
-  input [6:0] opcode;
+  input clk;
+  input wire [6:0] opcode;
   
   output reg alu_src;
   output reg mem_to_reg;
@@ -28,7 +30,7 @@ module ControlUnit(
       //R-type
       if (opcode == 7'b0110011)
         begin
-          alu_src = 1'b0;
+          alu_src <= 1'b0;
           mem_to_reg = 1'b0;
           reg_write = 1'b1;
           mem_read = 1'b0;
@@ -65,7 +67,7 @@ module ControlUnit(
       else if (opcode == 7'b0100011)
         begin
           alu_src = 1'b1;
-          mem_to_reg = 1'bx;
+          mem_to_reg = 1'b0;
           reg_write = 1'b0;
           mem_read = 1'b0;
           mem_write = 1'b1;

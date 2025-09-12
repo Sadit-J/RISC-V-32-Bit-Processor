@@ -2,10 +2,12 @@
 
 module InstructionMemory_tb;
 
+    // Testbench signals
     reg reset;
     reg [31:0] pc_address;
     wire [31:0] instruction;
 
+    // Instantiate DUT
     InstructionMemory uut (
         .pc_address(pc_address),
         .instruction(instruction),

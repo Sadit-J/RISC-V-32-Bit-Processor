@@ -2,7 +2,10 @@
 
 module ControlUnit_tb;
 
+    // Testbench signals
+    reg clk;
     reg [6:0] opcode;
+
     wire alu_src;
     wire mem_to_reg;
     wire reg_write;
@@ -11,7 +14,9 @@ module ControlUnit_tb;
     wire branch;
     wire [1:0] aluop;
 
-    ControlUnit uut (
+    // Instantiate DUT
+    ControlUnit dut (
+        .clk(clk),
         .opcode(opcode),
         .alu_src(alu_src),
         .mem_to_reg(mem_to_reg),
@@ -22,27 +27,31 @@ module ControlUnit_tb;
         .aluop(aluop)
     );
 
-    task run_test(input [6:0] opc, input [127:0] name);
-    begin
-        opcode = opc;
-        #5; 
-        $display("TEST %-10s | opcode=%b | alu_src=%b mem_to_reg=%b reg_write=%b mem_read=%b mem_write=%b branch=%b aluop=%b",
-                  name, opcode, alu_src, mem_to_reg, reg_write, mem_read, mem_write, branch, aluop);
-    end
-    endtask
+    // Clock generator (not really needed here but included for consistency)
+    always #5 clk = ~clk;
 
     initial begin
-        $display("Starting ControlUnit tests...");
+        // Initialize signals
+        clk = 0;
+        opcode = 7'b0000000;
 
-        run_test(7'b0110011, "R-type");     // R-type
-        run_test(7'b0010011, "I-type imm"); // I-type immediate
-        run_test(7'b0000011, "Load");       // Load
-        run_test(7'b0100011, "Store");      // Store
-        run_test(7'b1100011, "Branch");     // Branch
-        run_test(7'b1111111, "Invalid");    // Invalid / default
+        // Apply different test cases
+        #10 opcode = 7'b0110011; // R-type
+        #10 opcode = 7'b0010011; // I-type (Immediate)
+        #10 opcode = 7'b0000011; // Load
+        #10 opcode = 7'b0100011; // Store
+        #10 opcode = 7'b1100011; // Branch
+        #10 opcode = 7'b1111111; // Unknown/Default
 
-        $display("ControlUnit tests finished.");
-        #10 $stop;
+        // Finish simulation
+        #20 $finish;
+    end
+
+    // Monitor results
+    initial begin
+        $display("Time | Opcode    | alu_src mem_to_reg reg_write mem_read mem_write branch aluop");
+        $monitor("%4t | %b |    %b        %b          %b        %b        %b      %b    %b",
+                 $time, opcode, alu_src, mem_to_reg, reg_write, mem_read, mem_write, branch, aluop);
     end
 
 endmodule

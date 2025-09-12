@@ -15,6 +15,11 @@ module ImmGen(
           begin
             imm_result[11:0] = instruction[31:20];
           end
+       7'b0010011:
+          begin
+            imm_result[11:0] = instruction[31:20];
+          end
+          
        7'b0100011:
           begin
             imm_result[11:0] = {instruction[31:25], instruction[11:7]};
